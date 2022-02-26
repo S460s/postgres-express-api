@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+  backend:
+    image: node:17
+    container_name: backend
+    restart: on-failure
+    depends_on:
+      - database
+    environment:
+      NODE_ENV: development
+      PORT: 8000
+    volumes:
+      - ./backend/:/backend
+    ports:
+      - 8000:8000
+    working_dir: /backend
+    networks:
+      - mynetwork
+    command: bash -c 'npm i && npm run dev'
+
+  database:
+    image: postgres:12
+    container_name: database
+    volumes:
+      - ./backend/db-data/:/var/lib/postgresql/data
+
+    ports: 
+      - 5432:5432
+    
+    environment:
+      POSTGRES_USER: tester
+      POSTGRES_PASSWORD: asd
+      POSTGRES_DB: tester
+
+    networks:
+      - mynetwork
+
+networks:
+    mynetwork:
+        name: "mynetwork"
+        driver: bridge
