@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.json({ msg: "Hello" });
+  res.json({ msg: "Docker is awasome!" });
 });
 
 app.use("/users", userRoute);

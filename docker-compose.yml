@@ -5,29 +5,37 @@ services:
     image: node:17
     container_name: backend
     restart: on-failure
+
+
     depends_on:
       - database
+
     environment:
       NODE_ENV: development
       PORT: 8000
+
     volumes:
       - ./backend/:/backend
+
     ports:
       - 8000:8000
+
     working_dir: /backend
+
     networks:
       - mynetwork
-    command: bash -c 'npm i && npm run dev'
+
+    command: bash -c 'yarn install && yarn run dev'
 
   database:
     image: postgres:12
     container_name: database
+    restart: on-failure
+
+
     volumes:
       - ./backend/db-data/:/var/lib/postgresql/data
 
-    ports: 
-      - 5432:5432
-    
     environment:
       POSTGRES_USER: tester
       POSTGRES_PASSWORD: asd
@@ -35,6 +43,24 @@ services:
 
     networks:
       - mynetwork
+
+  frontend:
+    image: node:17
+    container_name: frontend
+    restart: on-failure
+
+    volumes:
+      - ./frontend:/frontend
+
+    environment:
+      NODE_ENV: development
+    
+    ports:
+      - 3000:3000
+
+    working_dir: /frontend
+    command: bash -c 'yarn install && yarn run dev'
+
 
 networks:
     mynetwork:
