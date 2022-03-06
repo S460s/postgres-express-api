@@ -1,21 +1,21 @@
-import { useEffect, useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import NavBar from './components/NavBar';
+
+import { Routes, Route } from 'react-router-dom';
+import Home from './components/Home';
+import LoginForm from './components/LoginForm';
+import SignupForm from './components/SignupForm';
 
 function App() {
-  const [msg, setMsg] = useState('')
-
-  useEffect( async () => {
-    const res = await fetch('http://localhost:8000');
-    const data = await res.json();
-    setMsg(data.msg);
-  }, [msg])
-
   return (
-    <div className="App">
-      <h1>{msg || 'Hello'}</h1>
-    </div>
-  )
+    <>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/signup" element={<SignupForm />} />
+      </Routes>
+    </>
+  );
 }
 
-export default App
+export default App;
