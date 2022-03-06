@@ -1,6 +1,10 @@
 import { Container, CssBaseline, Paper, Typography } from '@mui/material';
+import { useContext } from 'react';
+import { UserContext } from '../../App';
 
 function Home() {
+  const data = useContext(UserContext);
+
   return (
     <Container>
       <Paper

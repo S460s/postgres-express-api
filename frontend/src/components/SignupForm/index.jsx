@@ -15,10 +15,9 @@ import FormLabel from '@mui/material/FormLabel';
 
 import { useForm, Controller } from 'react-hook-form';
 
-function SignupForm() {
-  // const location = useLocation();
-  // const navigate = useNavigate();
+import CONST from '../../const';
 
+function SignupForm() {
   const {
     register,
     handleSubmit,
@@ -30,6 +29,19 @@ function SignupForm() {
 
   const onSubmit = async (data) => {
     console.log(data);
+    try {
+      const res = await fetch(`${CONST.baseUrl}/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+        body: JSON.stringify(data),
+      });
+      const json = await res.json();
+      console.log(json);
+    } catch (err) {
+      console.log(err, data);
+    }
   };
 
   const requiredRule = {
