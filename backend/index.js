@@ -22,5 +22,5 @@ app.use('/api/users', userRoute);
 app.listen(PORT, async () => {
   console.log(`listening for requests on port ${PORT}`);
 
-  // await sync();
+  // await sync(true, false);
 });

@@ -1,5 +1,5 @@
 const User = (sequelize, DataTypes) => {
-  const user = sequelize.define("User", {
+  const user = sequelize.define('User', {
     username: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -13,6 +13,11 @@ const User = (sequelize, DataTypes) => {
 
     password: {
       type: DataTypes.STRING,
+      allowNull: false,
+    },
+
+    role: {
+      type: DataTypes.ENUM('student', 'teacher'),
       allowNull: false,
     },
   });
