@@ -6,7 +6,7 @@ import {
   TextField,
   Grid,
 } from '@mui/material';
-
+import { useContext } from 'react';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -15,9 +15,15 @@ import FormLabel from '@mui/material/FormLabel';
 
 import { useForm, Controller } from 'react-hook-form';
 
-import CONST from '../../const';
+import { getProfile, signUp } from '../../utils/myFetch';
+import { populateStorage } from '../../utils/localStorage';
+import { useNavigate } from 'react-router-dom';
+
+import { UserContext } from '../../App';
 
 function SignupForm() {
+  const navigate = useNavigate();
+  const { setUser } = useContext(UserContext);
   const {
     register,
     handleSubmit,
@@ -28,17 +34,16 @@ function SignupForm() {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
     try {
-      const res = await fetch(`${CONST.baseUrl}/signup`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-        },
-        body: JSON.stringify(data),
-      });
-      const json = await res.json();
-      console.log(json);
+      const res = await signUp(data);
+      if (res.ok) {
+        populateStorage(res, 'jwt');
+        const user = await getProfile(res.token);
+        setUser(user);
+        navigate('/');
+      } else {
+        console.log('HANDLE ERROR');
+      }
     } catch (err) {
       console.log(err, data);
     }

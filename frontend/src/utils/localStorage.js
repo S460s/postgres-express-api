@@ -1,3 +1,5 @@
+import { getProfile } from '../utils/myFetch';
+
 function getData(key) {
   const data = localStorage.getItem(key);
   const objects = JSON.parse(data);
@@ -16,4 +18,15 @@ function checkStorage(key, defaultValue) {
   }
 }
 
-export { populateStorage, checkStorage };
+async function injectUser(setUser, user) {
+  if (!user.ok) {
+    const jwt = checkStorage('jwt', {});
+    if (jwt.ok) {
+      const user = await getProfile(jwt.token);
+      console.log(user);
+      setUser(user);
+    }
+  }
+}
+
+export { populateStorage, checkStorage, injectUser };

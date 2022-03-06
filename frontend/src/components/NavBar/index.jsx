@@ -6,8 +6,11 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
 import { Link } from 'react-router-dom';
+import { UserContext } from '../../App';
 
 export default function NavBar() {
+  const { user: userData } = React.useContext(UserContext);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -15,12 +18,20 @@ export default function NavBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link to="/">Home</Link>
           </Typography>
-          <Button color="inherit">
-            <Link to="/login">Login</Link>
-          </Button>
-          <Button color="inherit">
-            <Link to="/signup">Sign up</Link>
-          </Button>
+          {userData.ok ? (
+            <Button color="inherit">
+              <Link to="/logout">Log out</Link>
+            </Button>
+          ) : (
+            <>
+              <Button color="inherit">
+                <Link to="/login">Login</Link>
+              </Button>
+              <Button color="inherit">
+                <Link to="/signup">Sign up</Link>
+              </Button>
+            </>
+          )}
         </Toolbar>
       </AppBar>
     </Box>
