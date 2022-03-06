@@ -19,9 +19,14 @@ export default function NavBar() {
             <Link to="/">Home</Link>
           </Typography>
           {userData.ok ? (
-            <Button color="inherit">
-              <Link to="/logout">Log out</Link>
-            </Button>
+            <>
+              <Button color="inherit">
+                <Link to="/logout">Log out</Link>
+              </Button>
+              <Button color="inherit">
+                <Link to="/profile">Profile</Link>
+              </Button>
+            </>
           ) : (
             <>
               <Button color="inherit">

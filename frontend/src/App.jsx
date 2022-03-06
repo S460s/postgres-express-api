@@ -5,6 +5,7 @@ import Home from './components/Home';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 import { injectUser } from './utils/localStorage';
+import Profile from './components/Profile';
 
 export const UserContext = createContext();
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignupForm />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </UserContext.Provider>
   );
