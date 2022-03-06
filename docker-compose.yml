@@ -22,9 +22,6 @@ services:
 
     working_dir: /backend
 
-    networks:
-      - mynetwork
-
     command: bash -c 'yarn install && yarn run dev'
 
   database:
@@ -40,9 +37,6 @@ services:
       POSTGRES_USER: tester
       POSTGRES_PASSWORD: asd
       POSTGRES_DB: tester
-
-    networks:
-      - mynetwork
 
   frontend:
     image: node:17
@@ -60,9 +54,3 @@ services:
 
     working_dir: /frontend
     command: bash -c 'yarn install && yarn run dev'
-
-
-networks:
-    mynetwork:
-        name: "mynetwork"
-        driver: bridge
