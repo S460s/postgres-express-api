@@ -6,26 +6,21 @@ import {
   TextField,
   Grid,
 } from '@mui/material';
-import { useContext } from 'react';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
+import { useContext, useState } from 'react';
 
 import { useForm, Controller } from 'react-hook-form';
 
-import { getProfile, signUp } from '../../utils/myFetch';
-import { populateStorage } from '../../utils/localStorage';
+import { getProfile, login } from '../utils/myFetch';
+import { populateStorage } from '../utils/localStorage';
 import { useNavigate } from 'react-router-dom';
 
-import { UserContext } from '../../App';
+import { UserContext } from '../App';
 
 function SignupForm() {
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
   const { setUser } = useContext(UserContext);
   const {
-    register,
     handleSubmit,
     control,
     formState: { errors },
@@ -35,14 +30,15 @@ function SignupForm() {
 
   const onSubmit = async (data) => {
     try {
-      const res = await signUp(data);
+      const res = await login(data);
+      console.log(res);
       if (res.ok) {
         populateStorage(res, 'jwt');
         const user = await getProfile(res.token);
         setUser(user);
         navigate('/');
       } else {
-        console.log('HANDLE ERROR');
+        setError(res.error);
       }
     } catch (err) {
       console.log(err, data);
@@ -68,29 +64,11 @@ function SignupForm() {
             marginBottom: '2rem',
           }}
         >
-          Sign up
+          Login
         </Typography>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2} alignItems="center" direction="row">
-            <Grid item xs={12}>
-              <Controller
-                name="username"
-                rules={requiredRule}
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    required={true}
-                    label="Username"
-                    error={!!errors.username}
-                    helperText={errors?.username?.message}
-                    id="username"
-                    variant="standard"
-                    {...field}
-                  />
-                )}
-              />
-            </Grid>
             <Grid item xs={12}>
               <Controller
                 name="email"
@@ -129,32 +107,16 @@ function SignupForm() {
             </Grid>
 
             <Grid item xs={12}>
-              <FormControl>
-                <FormLabel id="role">Role</FormLabel>
-                <RadioGroup
-                  aria-labelledby="role"
-                  defaultValue="student"
-                  name="role-radio"
-                >
-                  <FormControlLabel
-                    value="student"
-                    {...register('role', { required: true })}
-                    control={<Radio />}
-                    label="Student"
-                  />
-                  <FormControlLabel
-                    value="teacher"
-                    {...register('role', { required: true })}
-                    control={<Radio />}
-                    label="Teacher"
-                  />
-                </RadioGroup>
-              </FormControl>
+              {error && (
+                <Typography color="error" variant="h6">
+                  {error}
+                </Typography>
+              )}
             </Grid>
 
             <Grid item xs={12}>
               <Button type="submit" variant="outlined" size="large">
-                Submit
+                Login
               </Button>
             </Grid>
           </Grid>

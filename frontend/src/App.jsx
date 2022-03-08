@@ -3,7 +3,7 @@ import { createContext, useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
 import LoginForm from './components/LoginForm';
-import SignupForm from './components/SignupForm';
+import SignupForm from './components/SignUpForm';
 import { injectUser } from './utils/localStorage';
 import Profile from './components/Profile';
 import Logout from './components/Logout';

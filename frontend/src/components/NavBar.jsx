@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
 import { Link } from 'react-router-dom';
-import { UserContext } from '../../App';
+import { UserContext } from '../App';
 
 export default function NavBar() {
   const { user: userData } = React.useContext(UserContext);

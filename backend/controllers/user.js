@@ -39,7 +39,7 @@ const login = function (req, res, next) {
       const token = jwt.sign({ email: user.email }, 'test123');
       res.json({ token, ok: true });
     } else {
-      res.json({ ok: false });
+      res.json({ ok: false, error: 'Wrong email or password!' });
     }
   })(req, res);
 };
